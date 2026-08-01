@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behaviour Trainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 24px;
+            text-align: center;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #tulos {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Behaviour Trainer</h2>
+        <p>Mitä haluat tehdä?</p>
+        <select id="tapaValinta">
+            <option value="oppiminen">Opi uusi tapa (Spaced Repetition)</option>
+            <option value="poisoppiminen">Opi pois huonosta tavasta (Habit Loop)</option>
+        </select>
+        <button onclick="aloitaOhjelma()">Aloita ohjelma</button>
+        <p id="tulos"></p>
+    </div>
+
+    <script>
+        function aloitaOhjelma() {
+            const valinta = document.getElementById("tapaValinta").value;
+            const tulosKentta = document.getElementById("tulos");
+
+            if (valinta === "oppiminen") {
+                tulosKentta.innerHTML = "<strong>Strategia: Ositettu kertaus.</strong><br><br>Ensimmäinen muistutus asetettu 1 tunnin päähän. Seuraava 24 tunnin päähän.";
+            } else {
+                tulosKentta.innerHTML = "<strong>Strategia: Rutiinin katkaisu.</strong><br><br>Ensimmäinen muistutus asetettu 3 tunnin päähän satunnaistettuna, jotta aivot pysyvät varuillaan.";
+            }
+        }
+    </script>
+</body>
+</html>
