@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Behaviour Trainer</title>
+    <title>Behaviour Trainer - Rutiinin katkaisu</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,21 +19,98 @@
             max-width: 400px;
             margin: 0 auto;
         }
-        select, button {
+        h2 { color: #333; }
+        .btn {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             margin-top: 15px;
-            font-size: 16px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
+            font-size: 18px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
             font-weight: bold;
+            color: white;
         }
+        .btn-start { background-color: #e63946; }
+        .btn-start:hover { background-color: #d62828; }
+        .btn-success { background-color: #2a9d8f; display: none; margin-top: 10px;}
+        .btn-fail { background-color: #f4a261; display: none; margin-top: 10px;}
+        #ajastin {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #1d3557;
+        }
+        #viesti {
+            font-size: 16px;
+            color: #555;
+            min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Himon viivästys</h2>
+        <p>Asteittainen vähennys alkaa rutiinin rikkomisesta.</p>
+        
+        <button id="aloitaBtn" class="btn btn-start" onclick="aloitaAjastin()">Koen himoa - Katkaise rutiini</button>
+        
+        <div id="ajastin">10:00</div>
+        <div id="viesti">Tunnista ärsyke. Ota hetki aikaa ennen toimintaa.</div>
+
+        <button id="onnistuiBtn" class="btn btn-success" onclick="tallennaTulos(true)">Vastustin himoa!</button>
+        <button id="repesiBtn" class="btn btn-fail" onclick="tallennaTulos(false)">Annoin periksi (Vähennys jatkuu)</button>
+    </div>
+
+    <script>
+        let ajastin;
+        let aikaaJaljella = 600; // 10 minuuttia sekunteina
+
+        function paivitaNaytto() {
+            let minuutit = Math.floor(aikaaJaljella / 60);
+            let sekunnit = aikaaJaljella % 60;
+            document.getElementById("ajastin").innerText = 
+                `${minuutit}:${sekunnit < 10 ? '0' : ''}${sekunnit}`;
+        }
+
+        function aloitaAjastin() {
+            document.getElementById("aloitaBtn").style.display = "none";
+            document.getElementById("viesti").innerText = "Odota. Anna himon aallon mennä ohi. Keskity hengitykseen tai juo lasi vettä.";
+            
+            ajastin = setInterval(function() {
+                aikaaJaljella--;
+                paivitaNaytto();
+
+                if (aikaaJaljella <= 0) {
+                    clearInterval(ajastin);
+                    document.getElementById("viesti").innerText = "10 minuuttia kului! Himo on todennäköisesti heikentynyt. Miten kävi?";
+                    document.getElementById("onnistuiBtn").style.display = "block";
+                    document.getElementById("repesiBtn").style.display = "block";
+                }
+            }, 1000);
+        }
+
+        function tallennaTulos(onnistui) {
+            document.getElementById("onnistuiBtn").style.display = "none";
+            document.getElementById("repesiBtn").style.display = "none";
+            
+            if (onnistui) {
+                document.getElementById("viesti").innerHTML = "<strong>Loistavaa!</strong> Palkitse itsesi jollain muulla tavalla.";
+            } else {
+                document.getElementById("viesti").innerHTML = "Ei hätää, vähentäminen on prosessi. <strong>Seuraavalla kerralla olet vahvempi.</strong>";
+            }
+            
+            // Palautetaan ohjelma alkutilaan pienen viiveen jälkeen
+            setTimeout(() => {
+                aikaaJaljella = 600;
+                paivitaNaytto();
+                document.getElementById("aloitaBtn").style.display = "block";
+                document.getElementById("viesti").innerText = "Tunnista ärsyke. Ota hetki aikaa ennen toimintaa.";
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
         button:hover {
             background-color: #0056b3;
         }
